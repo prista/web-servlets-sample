@@ -22,9 +22,16 @@ public class Resource1 extends HttpServlet {
 		String p3 = req.getParameter("isactive");
 		String p4 = req.getParameter("date");
 
+		String authHeader = req.getHeader("appVersion");
+		if (authHeader == null) {
+			resp.addHeader("appVersion", getServletContext().getInitParameter("appVersion"));
+		}
+
 		PrintWriter writer = resp.getWriter();
 		writer.println(
 				String.format("returned cars found by params  p1=%s. p2=%s. p3=%s. p4=%s", p1, p2, p3, p4));
+		writer.println("</br>App version: ");
+		writer.println(resp.getHeader("appVersion"));
 	}
 
 	@Override
