@@ -14,4 +14,6 @@ public interface IBaseDao<T> {
 
     void delete(Integer id);
 
+    void deleteAll();
+
 }

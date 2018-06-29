@@ -1,31 +1,30 @@
 package com.drm.sample.web.filter;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.drm.sample.web.User;
+import com.drm.sample.web.db.dao.IResourceDao;
+import com.drm.sample.web.db.dao.IUserProfileDao;
+import com.drm.sample.web.db.dao.impl.ResourceDaoImpl;
+import com.drm.sample.web.db.dao.impl.UserProfileDaoImpl;
+import com.drm.sample.web.db.model.Resource;
+import com.drm.sample.web.db.model.UserProfile;
 import org.apache.commons.codec.binary.Base64;
 
-import com.drm.sample.web.User;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
 
 //https://developer.mozilla.org/ru/docs/Web/HTTP/%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F
 public class AuthorizationFilter implements Filter {
 
+	private final IUserProfileDao userProfileDao = new UserProfileDaoImpl();
+	private final IResourceDao resourceDao = new ResourceDaoImpl();
+
 	private final Map<String, User> USER_DB = new HashMap<String, User>();
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-		User basic = new User();
+/*		User basic = new User();
 		basic.setPassword("basicPassword");
 		basic.getAllowedResources().add("/r1");
 
@@ -37,7 +36,7 @@ public class AuthorizationFilter implements Filter {
 		admin.getAllowedResources().add("/r4");
 
 		USER_DB.put("admin", admin);
-		USER_DB.put("basic", basic);
+		USER_DB.put("basic", basic);*/
 	}
 
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
@@ -55,7 +54,7 @@ public class AuthorizationFilter implements Filter {
 
 		String[] authHeaderValues = authHeader.split(" ");
 
-		if (authHeaderValues == null || authHeaderValues.length != 2) {
+		if (authHeaderValues.length != 2) {
 			send401(response, "something wrong with header content");
 			return;
 		}
@@ -71,7 +70,7 @@ public class AuthorizationFilter implements Filter {
 		String credentials = new String(Base64.decodeBase64(credsString), "UTF-8");
 		String[] userAndPass = credentials.split(":");
 
-		if (userAndPass == null || userAndPass.length != 2) {
+		if (userAndPass.length != 2) {
 			send401(response, "something wrong with decoded token");
 			return;
 		}
@@ -79,7 +78,7 @@ public class AuthorizationFilter implements Filter {
 		String login = userAndPass[0];
 		String password = userAndPass[1];
 
-		User user = USER_DB.get(login);
+/*		User user = USER_DB.get(login);
 
 		if (user == null) {
 			send401(response, "unknown username");
@@ -95,6 +94,40 @@ public class AuthorizationFilter implements Filter {
 		String currentPath = request.getRequestURI();
 
 		if (!allowedResources.contains(currentPath)) {
+			// attempt to get disallowed resource
+			send403(response);
+		}*/
+
+		UserProfile currentUser = null;
+
+		List<UserProfile> userProfiles = userProfileDao.getAll();
+		for (UserProfile user : userProfiles) {
+			if (user.getName().equals(login)) {
+				currentUser = userProfileDao.getFullInfo(user.getId());
+				break;
+			}
+		}
+
+
+
+		if (currentUser == null) {
+			send401(response, "unknown username");
+			return;
+		}
+
+		if (!currentUser.getPassword().equals(password)) {
+			send401(response, "invalid password");
+			return;
+		}
+
+
+		List<String> allowedResourcesList = new ArrayList<>();
+		for (Resource resource : currentUser.getAllowedResources()) {
+			allowedResourcesList.add(resource.getPath()); // it smells
+		}
+		String currentPath = request.getRequestURI();
+
+		if (!allowedResourcesList.contains(currentPath)) {
 			// attempt to get disallowed resource
 			send403(response);
 		}

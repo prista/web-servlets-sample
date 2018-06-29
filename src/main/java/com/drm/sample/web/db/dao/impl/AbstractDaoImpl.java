@@ -88,6 +88,25 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
         }
     }
 
+    @Override
+    public void deleteAll() {
+        try (Connection c = getConnection();
+             PreparedStatement pStmt = c.prepareStatement(
+                     String.format("delete from %s", getTableName()))) {
+            c.setAutoCommit(false);
+            try {
+                pStmt.executeUpdate();
+                c.commit();
+            } catch (final Exception e) {
+                c.rollback();
+                throw new RuntimeException(e);
+            }
+
+        } catch (final SQLException e) {
+            throw new SQLExecutionException(e);
+        }
+    }
+
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB.getProperty("db.url"), DB.getProperty("db.user"),
                 DB.getProperty("db.password"));
