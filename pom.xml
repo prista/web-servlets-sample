@@ -7,6 +7,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<jetty9.version>9.2.15.v20160210</jetty9.version>
 		<jstl.version>1.2.1</jstl.version>
 		<tld.version>1.1.2</tld.version>
@@ -125,18 +127,4 @@
 
 
 	</dependencies>
-
-	<build>
-		<finalName>web-sample</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
