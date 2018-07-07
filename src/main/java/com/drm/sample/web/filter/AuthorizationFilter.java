@@ -24,7 +24,7 @@ public class AuthorizationFilter implements Filter {
 	private final Map<String, User> USER_DB = new HashMap<String, User>();
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-/*		User basic = new User();
+		User basic = new User();
 		basic.setPassword("basicPassword");
 		basic.getAllowedResources().add("/r1");
 
@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
 		admin.getAllowedResources().add("/r4");
 
 		USER_DB.put("admin", admin);
-		USER_DB.put("basic", basic);*/
+		USER_DB.put("basic", basic);
 	}
 
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
@@ -78,7 +78,7 @@ public class AuthorizationFilter implements Filter {
 		String login = userAndPass[0];
 		String password = userAndPass[1];
 
-/*		User user = USER_DB.get(login);
+		User user = USER_DB.get(login);
 
 		if (user == null) {
 			send401(response, "unknown username");
@@ -96,9 +96,9 @@ public class AuthorizationFilter implements Filter {
 		if (!allowedResources.contains(currentPath)) {
 			// attempt to get disallowed resource
 			send403(response);
-		}*/
+		}
 
-		UserProfile currentUser = null;
+/*		UserProfile currentUser = null;
 
 		List<UserProfile> userProfiles = userProfileDao.getAll();
 		for (UserProfile user : userProfiles) {
@@ -130,7 +130,7 @@ public class AuthorizationFilter implements Filter {
 		if (!allowedResourcesList.contains(currentPath)) {
 			// attempt to get disallowed resource
 			send403(response);
-		}
+		}*/
 
 		filterChain.doFilter(servletRequest, servletResponse);
 	}
