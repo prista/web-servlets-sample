@@ -7,11 +7,11 @@ import com.drm.sample.web.db.model.Resource;
 import com.drm.sample.web.db.model.UserProfile;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class UserProfileDaoImpl extends AbstractDaoImpl<UserProfile> implements IUserProfileDao {
+
+    public static final IUserProfileDao INSTANCE = new UserProfileDaoImpl();
 
     private IResourceDao resourceDao = new ResourceDaoImpl();
 

@@ -5,8 +5,6 @@ import com.drm.sample.web.db.dao.IResourceDao;
 import com.drm.sample.web.db.dao.IUserProfileDao;
 import com.drm.sample.web.db.dao.impl.ResourceDaoImpl;
 import com.drm.sample.web.db.dao.impl.UserProfileDaoImpl;
-import com.drm.sample.web.db.model.Resource;
-import com.drm.sample.web.db.model.UserProfile;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.servlet.*;
@@ -34,6 +32,9 @@ public class AuthorizationFilter implements Filter {
 		admin.getAllowedResources().add("/r2");
 		admin.getAllowedResources().add("/r3");
 		admin.getAllowedResources().add("/r4");
+		admin.getAllowedResources().add("/menu.jsp");
+		admin.getAllowedResources().add("/user_profiles.jsp");
+		admin.getAllowedResources().add("/resources.jsp");
 
 		USER_DB.put("admin", admin);
 		USER_DB.put("basic", basic);
@@ -97,40 +98,6 @@ public class AuthorizationFilter implements Filter {
 			// attempt to get disallowed resource
 			send403(response);
 		}
-
-/*		UserProfile currentUser = null;
-
-		List<UserProfile> userProfiles = userProfileDao.getAll();
-		for (UserProfile user : userProfiles) {
-			if (user.getName().equals(login)) {
-				currentUser = userProfileDao.getFullInfo(user.getId());
-				break;
-			}
-		}
-
-
-
-		if (currentUser == null) {
-			send401(response, "unknown username");
-			return;
-		}
-
-		if (!currentUser.getPassword().equals(password)) {
-			send401(response, "invalid password");
-			return;
-		}
-
-
-		List<String> allowedResourcesList = new ArrayList<>();
-		for (Resource resource : currentUser.getAllowedResources()) {
-			allowedResourcesList.add(resource.getPath()); // it smells
-		}
-		String currentPath = request.getRequestURI();
-
-		if (!allowedResourcesList.contains(currentPath)) {
-			// attempt to get disallowed resource
-			send403(response);
-		}*/
 
 		filterChain.doFilter(servletRequest, servletResponse);
 	}

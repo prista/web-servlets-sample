@@ -1,0 +1,1 @@
+<a href="user_profiles.jsp">user profiles</a>|<a href="resources.jsp">allowed resources</a>

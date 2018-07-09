@@ -10,6 +10,8 @@ import java.util.Set;
 
 public class ResourceDaoImpl extends AbstractDaoImpl<Resource> implements IResourceDao {
 
+    public static final IResourceDao INSTANCE = new ResourceDaoImpl();
+
     @Override
     public Resource createEntity() {
         return new Resource();
