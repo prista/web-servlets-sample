@@ -1,10 +1,6 @@
 package com.drm.sample.web.filter;
 
 import com.drm.sample.web.User;
-import com.drm.sample.web.db.dao.IResourceDao;
-import com.drm.sample.web.db.dao.IUserProfileDao;
-import com.drm.sample.web.db.dao.impl.ResourceDaoImpl;
-import com.drm.sample.web.db.dao.impl.UserProfileDaoImpl;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.servlet.*;
@@ -15,9 +11,6 @@ import java.util.*;
 
 //https://developer.mozilla.org/ru/docs/Web/HTTP/%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F
 public class AuthorizationFilter implements Filter {
-
-	private final IUserProfileDao userProfileDao = new UserProfileDaoImpl();
-	private final IResourceDao resourceDao = new ResourceDaoImpl();
 
 	private final Map<String, User> USER_DB = new HashMap<String, User>();
 
@@ -32,9 +25,6 @@ public class AuthorizationFilter implements Filter {
 		admin.getAllowedResources().add("/r2");
 		admin.getAllowedResources().add("/r3");
 		admin.getAllowedResources().add("/r4");
-		admin.getAllowedResources().add("/menu.jsp");
-		admin.getAllowedResources().add("/user_profiles.jsp");
-		admin.getAllowedResources().add("/resources.jsp");
 
 		USER_DB.put("admin", admin);
 		USER_DB.put("basic", basic);
