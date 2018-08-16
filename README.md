@@ -5,3 +5,6 @@ Stack:
 -Maven
 -Java
 -Servlets+Filters
+-JSP
+-PostgreSQL
+-JUnit
