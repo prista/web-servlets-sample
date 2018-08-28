@@ -1,10 +1,6 @@
-Simple Web Sample with Authentication
+Simple Web Sample with Basic Authentication
 
-Stack:
--HTML
--Maven
--Java
--Servlets+Filters
--JSP
--PostgreSQL
--JUnit
+Build:
+call StartJetty.main() method 
+https://github.com/prista/web-servlets-sample/blob/master/src/main/java/com/drm/sample/web/StartJetty.java
+
