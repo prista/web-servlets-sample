@@ -1,1 +1,1 @@
-<a href="user_profiles.jsp">user profiles</a>|<a href="resources.jsp">allowed resources</a>
+<a href="brands.jsp">brands</a>|<a href="models.jsp">models</a>|<a href="cars.jsp">cars</a>
