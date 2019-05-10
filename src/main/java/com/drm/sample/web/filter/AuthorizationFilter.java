@@ -26,6 +26,13 @@ public class AuthorizationFilter implements Filter {
 		admin.getAllowedResources().add("/r3");
 		admin.getAllowedResources().add("/r4");
 
+		// add jsp samples (cars)
+		admin.getAllowedResources().add("/");
+		admin.getAllowedResources().add("/menu.jsp");
+		admin.getAllowedResources().add("/brands.jsp");
+		admin.getAllowedResources().add("/models.jsp");
+		admin.getAllowedResources().add("/cars.jsp");
+
 		USER_DB.put("admin", admin);
 		USER_DB.put("basic", basic);
 	}
