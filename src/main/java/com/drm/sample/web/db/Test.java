@@ -6,7 +6,7 @@ public class Test {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		Connection c = DriverManager.getConnection(
-				"jdbc:postgresql://localhost:5432/pristadb", "postgres", "postgres");
+				"jdbc:postgresql://localhost:5432/pristadb", "postgres", "pgpass");
 
 		Statement statement = c.createStatement();
 		ResultSet resultSet = printCurrentTable(statement);

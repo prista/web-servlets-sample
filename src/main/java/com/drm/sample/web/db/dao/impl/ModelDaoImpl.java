@@ -3,8 +3,7 @@ package com.drm.sample.web.db.dao.impl;
 import com.drm.sample.web.db.dao.IModelDao;
 import com.drm.sample.web.db.model.Model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ModelDaoImpl extends AbstractDao<Model> implements IModelDao {
 
@@ -26,7 +25,24 @@ public class ModelDaoImpl extends AbstractDao<Model> implements IModelDao {
 	
 	@Override
 	public Integer insert(Model object) throws SQLException {
-		throw new RuntimeException("not implemented");
+		Connection c = getConnection();
+
+		PreparedStatement preparedStatement = c.prepareStatement(
+				"insert into model (name, brand_id) values(?,?)", Statement.RETURN_GENERATED_KEYS);
+		preparedStatement.setString(1, object.getName());
+		preparedStatement.setInt(2, object.getBrandId());
+
+		preparedStatement.executeUpdate();
+
+		final ResultSet rs = preparedStatement.getGeneratedKeys();
+		rs.next();
+		final int id = rs.getInt("id");
+
+		rs.close();
+		preparedStatement.close();
+		c.close();
+
+		return id;
 		
 	}
 

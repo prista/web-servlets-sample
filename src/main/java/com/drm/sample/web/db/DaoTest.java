@@ -27,6 +27,7 @@ public class DaoTest {
         Integer generatedId = brandDao.insert(object);
         System.out.println("latest generated brand id:" + generatedId);
         printList(brandDao.getAll());
+        printList(carDao.geJoined());
 
     }
 

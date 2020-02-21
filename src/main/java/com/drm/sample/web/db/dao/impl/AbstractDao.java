@@ -65,7 +65,7 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
 
     protected Connection getConnection() throws SQLException {
         Connection c = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/pristadb", "postgres", "postgres");
+                "jdbc:postgresql://localhost:5432/pristadb", "postgres", "pgpass");
         return c;
     }
 
